@@ -232,6 +232,7 @@ document.getElementById('date').setAttribute("min",today);
       });
   }
   $("#commander").click(function(e){
+    return false;
     e.preventDefault();
     if($("#nom").val()!="" 
       && $("#prenom").val()!=""

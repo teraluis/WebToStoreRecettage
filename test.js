@@ -232,6 +232,7 @@ document.getElementById('date').setAttribute("min",today);
       });
   }
   $("#commander").click(function(e){
+  
     e.preventDefault();
     if($("#nom").val()!="" 
       && $("#prenom").val()!=""
@@ -242,11 +243,12 @@ document.getElementById('date').setAttribute("min",today);
       ){
       let date =$("#date").val();
       if(validation_jour(date)==true){
-        let modal = document.getElementById("modal-body");
+        alert("la date est valide");
+/*        let modal = document.getElementById("modal-body");
         modal.style.display="none";
         $("#chargement").show();
         submitWebToStore();
-        return false;
+        return false;*/
       }else {
         alert("la date ne dois pas être un dimanche ou un lundi et elle doit être 3 jours plus tard à compter de l date d'aujord'hui")
       }
