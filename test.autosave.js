@@ -73,7 +73,6 @@
   }
 ]
 function sanitizeHTML(strings) {
-  //const entities = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
   const entities = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
   let result = strings[0];
   for (let i = 1; i < arguments.length; i++) {
@@ -109,7 +108,7 @@ function initMap(){
       }
     };
   });
-    const apiKey = 'AIzaSyAjK0ZMfrYfOd0vAyXJJW3xf-cmuxRdAeI';
+    //const apiKey = 'AIzaSyAjK0ZMfrYfOd0vAyXJJW3xf-cmuxRdAeI';
   const infoWindow = new google.maps.InfoWindow();
   infoWindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
    map.data.loadGeoJson('revendeurs.json');
@@ -157,6 +156,7 @@ function initMap(){
 
 
 $(document).ready(function(){
+initMap();
 var today = new Date();
 var dd = today.getDate()+3;
 var mm = today.getMonth() + 1; //January is 0!
@@ -227,13 +227,15 @@ document.getElementById('date').setAttribute("min",today);
           },
           error: function (jqXHR, textStatus, errorThrown) {
               $("#chargement").hide();
+              $("#error").show();
               console.log(jqXHR + " :: " + textStatus + " :: " + errorThrown);
           }
       });
   }
   $("#commander").click(function(e){
-    return false;
+    console.log("on rentre");
     e.preventDefault();
+
     if($("#nom").val()!="" 
       && $("#prenom").val()!=""
       && $("#ville").val()!=""
@@ -242,20 +244,33 @@ document.getElementById('date').setAttribute("min",today);
       && $("#date").val()!=""
       ){
       let date =$("#date").val();
-      if(validation_jour(date)==true){
-        let modal = document.getElementById("modal-body");
-        modal.style.display="none";
-        $("#chargement").show();
-        submitWebToStore();
-        return false;
+      let mail =$("#mail").val();
+      let nom = $("#nom").val();
+      let prenom = $("#prenom").val();
+      let newsletter = $("#newsletter").val();
+      let ville = $("#ville").val();
+      let telephone = $("#telephone").val();
+      console.log(newsletter);
+      if(newsletter=="on"){
+        if(validation_jour(date)==true && validateEmail(mail)==true && validateString(nom)==true 
+          && validateString(prenom)==true && validateString(ville)
+          && validatePhone(telephone)
+          ) {
+          let modal = document.getElementById("modal-body");
+          modal.style.display="none";
+          $("#chargement").show();
+          submitWebToStore();
+          return false;
+        }else {
+          alert("vous devez completer touts les champs correctement");
+        }
       }else {
-        alert("la date ne dois pas être un dimanche ou un lundi et elle doit être 3 jours plus tard à compter de l date d'aujord'hui")
+        alert("vous devez acepter les conditions de la rgpd");
       }
 
     }else {
       alert("veuillez completer touts les champs  svp.");
     }
-    
     });
 });
 function escapeHtml(text) {
@@ -272,6 +287,7 @@ function validation_jour(date){
   var aujordhui= aujordhui_date.getDate();
   var ce_mois = aujordhui_date.getMonth()+1;
   var cette_annee=aujordhui_date.getFullYear();
+  var aujordhui_semaine = aujordhui_date.getDay();
   var date = new Date(date);
   var dd = date.getDate();
   var mm = date.getMonth() + 1;
@@ -280,17 +296,18 @@ function validation_jour(date){
 
   let date_rdv=(mm*10)+dd;
   let date_courante=(ce_mois*10)+aujordhui;
-
+  let ecart = Math.abs(parseInt(aujordhui_semaine+1)-parseInt(day+1));
+  console.log(ecart);
   var validacion = parseInt(mm*10)+parseInt(date_rdv)>parseInt(ce_mois*10)+parseInt(date_courante+3);
-  console.log("validation"+validacion);
+
   if(day == 0 || day == 1  ){//si c' est dimanche = 0 ou lundi = 1
-    return false
+    return false;
   }else {
-    if(mm>ce_mois || yyyy>cette_annee){ //valeur absolue du dernier jour du mois - aujordhui
-      return true
+    if(yyyy>cette_annee){ 
+      return true;
     }else if(mm<ce_mois) {
       return false;
-    }else if(mm==ce_mois) {
+    }else if(mm==ce_mois || mm>ce_mois) {
       if(validacion==true){
         return true;
       }else {
@@ -299,3 +316,129 @@ function validation_jour(date){
     }
   }
 }
+function validateEmail(candidate){
+  let emailRegex = new RegExp("^[0-9a-zA-Z._ éèàçù~^¨-]+@[0-9a-zA-Z_éàù-]{2,}\.[- a-z_]{2,6}$",'i');
+  return emailRegex.test(candidate);
+}
+function validateString(candidate){
+  let string = new RegExp("^([^0-9]*)$",'i');
+  return string.test(candidate);
+}
+function validatePhone(candidate){
+  let string = new RegExp("^(0)[1-9]([-. ]?[0-9]{2}){4}$",'ig');//regex qu acepte les numeros de elephone +33 et de 01 à 09
+  return string.test(candidate);
+}
+$("input[name='telephone']").blur(function verifPhone(){
+  if($(this).val().length<1){
+        $(this).css("background-color","rgba(215, 44, 44, 0.4)");
+        $(this).css("color","white");
+        $("#alert_error").show();
+        $("#alert_error").text("");
+        $("#alert_error").text("le numero de telephone n'est pas valide ");
+  }else {
+      if(!validatePhone($(this).val())){
+          
+          $(this).css("background-color","rgba(215, 44, 44, 0.4)");//rgba(215, 44, 44, 0.4)
+          $(this).css("color","white");
+          $("#alert_error").show();
+          $("#alert_error").text("");
+          $("#alert_error").text("le numero de telephone doit comencer soit par 33 soit par 01 à 09");
+      }else if(validatePhone($(this).val())){
+          $(this).css("background-color","white");
+          $(this).css("color","black");
+          $("#alert_error").hide();
+          $("#alert_error").text("");
+      }
+  }
+});
+$("input[name='ville']").blur(function verifPhone(){
+  if($(this).val().length<1){
+        $(this).css("background-color","rgba(215, 44, 44, 0.4)");
+        $(this).css("color","white");
+        $("#alert_error").show();
+        $("#alert_error").text("");
+        $("#alert_error").text("le numero de telephone n'est pas valide ");
+  }else {
+      if(!validateString($(this).val())){
+          
+          $(this).css("background-color","rgba(215, 44, 44, 0.4)");//rgba(215, 44, 44, 0.4)
+          $(this).css("color","white");
+          $("#alert_error").show();
+          $("#alert_error").text("");
+          $("#alert_error").text("le numero de telephone doit comencer soit par +33 soit par 01 à 09");
+      }else if(validateString($(this).val())){
+          $(this).css("background-color","white");
+          $(this).css("color","black");
+          $("#alert_error").hide();
+          $("#alert_error").text("");
+      }
+  }
+});
+$("input[name='mail']").blur(function verifMail(){
+  if($(this).val().length<1){
+        $(this).css("background-color","rgba(215, 44, 44, 0.4)");
+        $(this).css("color","white");
+        $("#alert_error").show();
+        $("#alert_error").text("");
+        $("#alert_error").text("l'adresse mail ne doit pas être vide");
+  }else {
+      if(!validateEmail($(this).val())){
+          
+          $(this).css("background-color","rgba(215, 44, 44, 0.4)");//rgba(215, 44, 44, 0.4)
+          $(this).css("color","white");
+          $("#alert_error").show();
+          $("#alert_error").text("");
+          $("#alert_error").text("l'adresse mail n'est pas bonne");
+      }else if(validateEmail($(this).val())){
+          $(this).css("background-color","white");
+          $(this).css("color","black");
+          $("#alert_error").hide();
+          $("#alert_error").text("");
+      }
+  }
+});
+$("input[name='nom']").blur(function verifNom(){
+  if($(this).val().length<2){
+        $(this).css("background-color","rgba(215, 44, 44, 0.4)");
+        $(this).css("color","white");
+        $("#alert_error").show();
+        $("#alert_error").text("");
+        $("#alert_error").text("le nom ne dois pas être vide");
+  }else {
+      if(!validateString($(this).val())){
+          
+          $(this).css("background-color","rgba(215, 44, 44, 0.4)");//rgba(215, 44, 44, 0.4)
+          $(this).css("color","white");
+          $("#alert_error").show();
+          $("#alert_error").text("");
+          $("#alert_error").text("le nom n est pas valable");
+      }else if(validateString($(this).val())){
+          $(this).css("background-color","white");
+          $(this).css("color","black");
+          $("#alert_error").hide();
+          $("#alert_error").text("");
+      }
+  }
+});
+$("input[name='prenom']").blur(function verifPrenom(){
+  if($(this).val().length<2){
+        $(this).css("background-color","rgba(215, 44, 44, 0.4)");
+        $(this).css("color","white");
+        $("#alert_error").show();
+        $("#alert_error").text("");
+        $("#alert_error").text("le prenom ne dois pas être vide");
+  }else {
+      if(!validateString($(this).val())){
+          $(this).css("background-color","rgba(215, 44, 44, 0.4)");//rgba(215, 44, 44, 0.4)
+          $(this).css("color","white");
+          $("#alert_error").show();
+          $("#alert_error").text("");
+          $("#alert_error").text("le prenom n'pas valable");
+      }else if(validateString($(this).val())){
+          $(this).css("background-color","white");
+          $(this).css("color","black");
+          $("#alert_error").hide();
+          $("#alert_error").text("");
+      }
+  }
+});

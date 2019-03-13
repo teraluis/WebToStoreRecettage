@@ -8,12 +8,12 @@ $departement = $_POST['departement'];
 $mail = trim($_POST['mail']);
 $portable = trim($_POST['telephone']);
 $newsletter = $_POST['newsletter'];
-$date = $_POST['date'];
+$date = trim($_POST['date']);
 $opticien = trim($_POST['opticien']);
 $direcion=trim($_POST['direcion']);
 $ciudad = trim($_POST['ciudad']);
 
-sleep(1);
+
 $data = array("nom" => $nom ,"prenom"=>$prenom,"ville" => $ville, "departement" => $departement , "mail" => $mail ,
 	"portable" => $portable,
 	"newsletter" => $newsletter,
@@ -53,10 +53,10 @@ $data = array("nom" => $nom ,"prenom"=>$prenom,"ville" => $ville, "departement" 
      $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
      // En-têtes additionnels
-     $headers[] = 'To: MR <mr@example.com>, Mr <mr@example.com>';
+     //$headers[] = 'To: MR <mr@example.com>, Mr <mr@example.com>';
      $headers[] = 'From: vinylfactory <vinylfactory@vinylfactory.com>';
-     $headers[] = 'Cc: vinylfactory@vinylfactory.com';
-     $headers[] = 'Bcc: vinylfactory@vinylfactory.com';
+     //$headers[] = 'Cc: vinylfactory@vinylfactory.com';
+     //$headers[] = 'Bcc: vinylfactory@vinylfactory.com';
 
      // Envoi
      mail($to, $subject, $message, implode("\r\n", $headers));
