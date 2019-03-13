@@ -1,0 +1,54 @@
+	body {
+		margin:0;
+		padding: 0;
+	}
+	.contenu {
+		margin-top: 5%;
+		margin-left:20%;
+		margin-right: 20%;
+		width: auto;
+		font-family: "Trebuchet MS",sans-serif;
+		font-size: 20px;
+		line-height: 22px;
+		text-align: center;
+	
+	}
+	footer {
+		background-color: black; 
+		padding-top: 3%;
+		padding-bottom: 1%;
+		text-align: center;
+	}
+	
+	a {
+		text-decoration: none;
+	}
+	.metalica_white {
+	  font-size: 20px;
+	  font-weight: normal;
+	  font-family: 'fzm_embossed_label_lightRg',sans-serif;
+	  color: white;
+	  line-height: 0.1;
+	  text-align: center;
+	  background-color: black;
+
+	}
+	.metalica_black {
+	  font-size: 20px;
+	  font-weight: normal;
+	  font-family: 'fzm_embossed_label_lightRg',sans-serif;
+	  letter-spacing: -8px;
+	  line-height: 2;
+	  color: black;
+	  letter-spacing: -8px;
+	  text-align: center;
+	  border-color: none;
+	}
+	ul li {
+		display: inline-block;
+		min-width: 100px;
+		padding: 5px 10px;
+		text-decoration: none;
+		color: #fff;
+		font-weight: bold;
+	} 

@@ -72,6 +72,7 @@
     ]
   }
 ]
+
 function sanitizeHTML(strings) {
   const entities = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
   let result = strings[0];
@@ -142,8 +143,11 @@ function initMap(){
       <div style="width:300px; margin-bottom:20px;font-size:1em">
       <br>
         <p><b>Opticien:</b> ${opticien}</p>
-        <p><b>Adresse:</b> ${adresse}<br/><b>Code Postal :</b> ${postal_code} <br> <b>Ville:</b> ${ville} </p>
-        <br>
+        <p><b>Adresse:</b> ${adresse}<br/><b>Code Postal :</b> ${postal_code} <br> <b>Ville:</b> ${ville} <br>
+        <b>téléphone :</b> ${phone}
+        </p>
+        
+        <p><b>Horaires:</b> 10h00-19h00</p>
         <button onclick='retourne_position()' class="button" >Sélectionner</button>
       </div>
     `;
@@ -158,7 +162,7 @@ function initMap(){
 $(document).ready(function(){
 initMap();
 var today = new Date();
-var dd = today.getDate()+3;
+var dd = today.getDate()+4;
 var mm = today.getMonth() + 1; //January is 0!
 
 var yyyy = today.getFullYear();
@@ -187,8 +191,9 @@ document.getElementById('date').setAttribute("min",today);
     var geocode = codeAddress(address);
 
   });
-   
-  function submitWebToStore() {
+
+  function submitWebToStore(monture) {
+
       var fromulaire = $('#inscription');
       var champs = {};
       let tmp = user_data[0];
@@ -199,7 +204,7 @@ document.getElementById('date').setAttribute("min",today);
       champs['adresse']=tmp2;
       champs['ville']=user_data[2];
       champs['phone']=user_data[3];
-
+      console.log(monture);
       var form = fromulaire.serialize();
 
       
@@ -207,8 +212,8 @@ document.getElementById('date').setAttribute("min",today);
           type: "POST",
           dataType: "json",
           url: "prisse_rdv.php",
-          data: form+"&opticien="+champs['opticien']+"&direcion="+champs['adresse']+"&ciudad="+champs['ville'],
-          reponseType:'json',
+          data: form+"&monture="+monture+"&opticien="+champs['opticien']+"&direcion="+champs['adresse']+"&ciudad="+champs['ville'],
+          reponseType:'html',
           beforeSend: function () {
             $("#chargement").show();
           },
@@ -222,7 +227,9 @@ document.getElementById('date').setAttribute("min",today);
               let modal2 = document.getElementById("modal_body2");
               modal2.style.display="block";
           },
-          complete: function () {
+          complete: function (data) {
+            var obj=data;
+            console.log(obj);
             $("#chargement").hide();
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -232,10 +239,12 @@ document.getElementById('date').setAttribute("min",today);
           }
       });
   }
-  $("#commander").click(function(e){
-    console.log("on rentre");
-    e.preventDefault();
 
+  var monture_final = monture;
+  $("#commander").click(function(e){
+    
+    e.preventDefault();
+    console.log(monture_final);
     if($("#nom").val()!="" 
       && $("#prenom").val()!=""
       && $("#ville").val()!=""
@@ -259,10 +268,10 @@ document.getElementById('date').setAttribute("min",today);
           let modal = document.getElementById("modal-body");
           modal.style.display="none";
           $("#chargement").show();
-          submitWebToStore();
+          submitWebToStore(monture_final);
           return false;
         }else {
-          alert("vous devez completer touts les champs correctement");
+          alert("vous devez completer touts les champs correctement , avec un delai minimal de 4 jours");
         }
       }else {
         alert("vous devez acepter les conditions de la rgpd");
@@ -298,7 +307,7 @@ function validation_jour(date){
   let date_courante=(ce_mois*10)+aujordhui;
   let ecart = Math.abs(parseInt(aujordhui_semaine+1)-parseInt(day+1));
   console.log(ecart);
-  var validacion = parseInt(mm*10)+parseInt(date_rdv)>parseInt(ce_mois*10)+parseInt(date_courante+3);
+  var validacion = parseInt(mm*10)+parseInt(date_rdv)>parseInt(ce_mois*10)+parseInt(date_courante+4);
 
   if(day == 0 || day == 1  ){//si c' est dimanche = 0 ou lundi = 1
     return false;

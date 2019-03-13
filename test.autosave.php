@@ -1,11 +1,11 @@
 <?php
 header('Content-Type: application/json');
-$nom = trim($_POST['nom']);
-$prenom = trim($_POST['prenom']);
-$monture =$_POST['monture'];
-$ville = trim($_POST['ville']);
-$departement = $_POST['departement'];
-$mail = trim($_POST['mail']);
+$nom = "MANRESA";
+$prenom = "LUIS";
+
+$ville = "Paris";
+$departement = "departement";
+$mail = "mail";
 function tel($str) {
     if(strlen($str) >= 8) {
     $res = substr($str, 0, 2) .' ';
@@ -18,14 +18,15 @@ function tel($str) {
      return $str;
     }
 }
-$portable = tel(trim($_POST['telephone']));
-$newsletter = $_POST['newsletter'];
-$date = trim($_POST['date']);
+$portable = "0651486815";
+$portable = tel($portable);
+$newsletter = "oui";
+$date = "2019-03-22";
 $date = date("d/m/Y",strtotime($date));
-$opticien = trim($_POST['opticien']);
-$direcion=trim($_POST['direcion']);
-$ciudad = trim($_POST['ciudad']);
-$postal = trim($_POST['postal']);
+$opticien = "opticien";
+$direcion="121 av d'italie";
+$ciudad = "Lyon";
+$postal ="75013";
 
 $data = array("nom" => $nom ,"prenom"=>$prenom,"ville" => $ville, "departement" => $departement , "mail" => $mail ,
 	"portable" => $portable,
@@ -34,8 +35,7 @@ $data = array("nom" => $nom ,"prenom"=>$prenom,"ville" => $ville, "departement" 
 	"opticien" =>$opticien,
 	"adresse" =>$direcion,
 	"ciudad" =>$ciudad,
-  "postal"  => $postal,
-  "monture" => $monture
+     "postal" => $postal
 );
      // Plusieurs destinataires
      $to  = $mail; // notez la virgule
@@ -47,10 +47,9 @@ $data = array("nom" => $nom ,"prenom"=>$prenom,"ville" => $ville, "departement" 
      $message = file_get_contents('resa.html');
      $message = str_replace("#PRENOM#", $data["prenom"], $message);
      $message = str_replace("#NOM#", $data["nom"], $message);
-     $message = str_replace("#MODELE#", $data["monture"], $message);
      $message = str_replace("#OPTICIEN#", $data["opticien"], $message);
-     $message = str_replace("#ADRESSE#", $data["adresse"], $message);
      $message = str_replace("#POSTAL#", $data["postal"], $message);
+     
      $message = str_replace("#VILLE#", $data["ville"], $message);
      $message = str_replace("#DATE#", $data["date"], $message);
      $message = str_replace("#TELEPHONE#", $data["portable"], $message);
@@ -65,7 +64,7 @@ $data = array("nom" => $nom ,"prenom"=>$prenom,"ville" => $ville, "departement" 
      //$headers[] = 'Bcc: vinylfactory@vinylfactory.com';
 
      // Envoi
-     mail($to, $subject, $message, implode("\r\n", $headers));
+     //mail($to, $subject, $message, implode("\r\n", $headers));
 echo json_encode($data);
 
 

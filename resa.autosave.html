@@ -8,114 +8,8 @@
 <link rel="stylesheet" href="webfonkit2/stylesheet.css" type="text/css" charset="utf-8" />
 <link rel="stylesheet" href="webfontkit3/stylesheet.css" type="text/css" charset="utf-8" />  
 <link rel="stylesheet" href="webfontkit5/stylesheet.css" type="text/css" charset="utf-8" />
-<style type="text/css">
-body {
-	margin:0;
-	padding: 0;
-}
-	.contenu {
-		margin-top: 5%;
-		margin-left:20%;
-		margin-right: 20%;
-		width: auto;
-		font-family: "Trebuchet MS",sans-serif;
-		font-size: 20px;
-		line-height: 22px;
-		text-align: center;
-	
-	}
-	.network {
-		float: right;
-		margin-right: 10px;
-	}
-	.CTA {
-		font-weight: bold;
-		text-align: center;
-		font-family: "Trebuchet MS";
-	}
-	.button {
-		background-color: red;
-		border-radius: 20px;
-		color: white;
-		width: auto;
-		margin-left: 32%;
-		margin-right: 32%;
-		padding: 10px;
-		text-align: center;
-		text-decoration: none;
-	}
-	.contact {
-		font-family: "Trebuchet MS";
-		color: white;
-		text-align: center;
-	}
-	.suiveznous {
-		font-family: "Trebuchet MS";
-		color: white;
-		text-align: center;
-	}
-	footer {
-		background-color: black; 
-		padding-top: 5%;
-		padding-bottom: 5%;
-		text-align: center;
-	}
-	.menu
-	a {
-		text-decoration: none;
-	}
-	.metalica_white {
-	  font-size: 20px;
-	  font-weight: normal;
-	  font-family: 'fzm_embossed_label_lightRg',sans-serif;
-	  color: white;
-	  line-height: 0.1;
-	  text-align: center;
-	  background-color: black;
 
-	}
-	.metalica_black {
-	  font-size: 20px;
-	  font-weight: normal;
-	  font-family: 'fzm_embossed_label_lightRg',sans-serif;
-	  letter-spacing: -8px;
-	  line-height: 2;
-	  color: black;
-	  letter-spacing: -8px;
-	  text-align: center;
-	  border-color: none;
-	}
-	.opticiens_espace{
-		display: -ms-flexbox;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-flex-direction: row;
-		-ms-flex-direction: row;
-		flex-direction: row;
-		-webkit-flex-wrap: nowrap;
-		-ms-flex-wrap: nowrap;
-		flex-wrap: nowrap;
-		-webkit-justify-content: center;
-		-ms-flex-pack: center;
-		justify-content: center;
-		-webkit-align-content: stretch;
-		-ms-flex-line-pack: stretch;
-		align-content: stretch;
-		-webkit-align-items: flex-start;
-		-ms-flex-align: start;
-		align-items: flex-start;
-	}
-ul li {
-	display: inline-block;
-	min-width: 100px;
-	padding: 5px 10px;
-	text-decoration: none;
-	color: #fff;
-	font-weight: bold;
-
-} 
-</style>
-<body>
+<body style="margin:0;padding: 0;">
 <div style="background-color:#1C1C1C;">
   <!--[if gte mso 9]>
   <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
@@ -127,28 +21,37 @@ ul li {
       <td valign="middle" align="center" background="">
       	<br><br>
       	<a href="#LIEN1">
-      	<img src="vinyl_logo.png" >
+      	<img src="http://test.events-angeleyes.com/www2/vinyl_logo.png" >
       	</a>
       	<br><br>
       </td>
     </tr>
   </table>
 </div>
-<div class="contenu">
-	Bonjour LOUIS,<br><br>
+<div class="contenu" style="margin-top: 5%;
+		margin-left:20%;
+		margin-right: 20%;
+		width: auto;
+		font-family: 'Trebuchet MS',sans-serif;
+		font-size: 20px;
+		line-height: 22px;
+		text-align: center;">
+	Bonjour #PRENOM#,<br><br>
 	Merci pour votre réservation!<br><br>
-	Votre modèle Ainger C2<br>
+	Votre modèle #MODELE#<br>
 	est à retrouver chez:
 	<br><br>
-	<b>Optique Jourdan,</b><br>
-	9 Rue du Chevalier de Saint-george,<br>
-	75008 Paris<br>
-	Tel:01 42 60 27 10<br><br>
+	<b>#OPTICIEN#,</b><br>
+	#ADRESSE#,<br>
+	#POSTAL# #VILLE#<br>
+	Tel:#TELEPHONE#<br><br>
 	Référence de la réservation:<br>
 	<b>2XOEJF<b><br>
-	LE 04/03/2019
-	<p class="metalica_black">confirmer la réservation</p>
-	<p class="metalica_black">anuler la réservation</p>
+	LE #DATE#<br><br>
+	<!-- <p class="metalica_black">confirmer la réservation</p> -->
+	<img src="http://test.events-angeleyes.com/www2/confirmer_la_reservation.png"><br><br>
+	<!-- <p class="metalica_black">anuler la réservation</p> -->
+	<img src="http://test.events-angeleyes.com/www2/anuler_la_reservation.png"><br><br>
 	<br>
 	<span style="font-size: 16px">Vous avez changé d'avis ? N'oubliez pas d'annuler
 	<br>votre réservation.<br>
@@ -157,28 +60,53 @@ ul li {
 	<br><br>
 </div>
 
-<footer>
-	<div class="metalica_white">suivez-nous</div><br>
-	<div >
+<footer style="		background-color: black; 
+		padding-top: 3%;
+		padding-bottom: 1%;
+		text-align: center;">
+	<!-- <div class="metalica_white">suivez-nous</div> -->
+	<img src="http://test.events-angeleyes.com/www2/suivez_nous.png">
+	<br><br>
+	<div style="margin-right: 3%">
 	<ul >
-		<li>
+		<li style="		display: inline-block;
+		min-width: 100px;
+		padding: 5px 10px;
+		text-decoration: none;
+		color: #fff;
+		font-weight: bold;">
 			<a href="https://www.facebook.com/vinylfactoryeyewear/" style=" text-decoration: none;">
 			<img src="https://www.vinylfactory.fr/telechargement_vf/newsletter/decembre2018/noel/facebook.png" width="50px" alt="facebook">
 			</a>
 		</li>
-		<li>
+		<li style="		display: inline-block;
+		min-width: 100px;
+		padding: 5px 10px;
+		text-decoration: none;
+		color: #fff;
+		font-weight: bold;">
 			<a href="https://www.instagram.com/vinylfactoryeyewear/" style=" text-decoration: none;">
-			<img src="https://www.vinylfactory.fr/telechargement_vf/newsletter/decembre2018/noel/instagram.png" width="50px" alt="facebook">
+			<img src="https://www.vinylfactory.fr/telechargement_vf/newsletter/decembre2018/noel/instagram.png" width="50px" alt="instagram">
 			</a>
 		</li>
-		<li>
+		<li style="		display: inline-block;
+		min-width: 100px;
+		padding: 5px 10px;
+		text-decoration: none;
+		color: #fff;
+		font-weight: bold;">
 			<a href="https://twitter.com/vinylfactory_fr?lang=fr" style=" text-decoration: none;">
-			<img src="https://www.vinylfactory.fr/telechargement_vf/newsletter/decembre2018/noel/twitter2.png" width="50px" alt="facebook">
+			<img src="https://www.vinylfactory.fr/telechargement_vf/newsletter/decembre2018/noel/twitter2.png" width="50px" alt="twitter">
 			</a>
 		</li>
-		<li>
-			<a href="https://www.facebook.com/vinylfactoryeyewear/" style=" text-decoration: none;">
-			<img src="https://www.vinylfactory.fr/telechargement_vf/newsletter/decembre2018/noel/youtube.png" width="50px" alt="facebook">
+		<li style="		display: inline-block;
+		min-width: 100px;
+		padding: 5px 10px;
+		text-decoration: none;
+		color: #fff;
+		font-weight: bold;">
+			<a href="https://www.youtube.com/channel/UCOTzcoA_QLSxL5kYkN8vB_g" style=" text-decoration: none;">
+			<img src="https://www.vinylfactory.fr/telechargement_vf/newsletter/decembre2018/noel/youtube.png" width="50px" alt="youtube">
 			</a>
 		</li>
 	</ul>
