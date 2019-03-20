@@ -33,3 +33,7 @@ left:0%; */
 b {
   font-size : 1.2em;
 }
+body{
+  margin: 0;
+  padding: 0;
+}

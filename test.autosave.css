@@ -1,4 +1,4 @@
-.map {height: 80%;}
+.map {height: 70%;}
 
 .fa-search {
   position: absolute;
@@ -32,4 +32,8 @@ left:0%; */
 }
 b {
   font-size : 1.2em;
+}
+body{
+  margin: 0;
+  pad$
 }

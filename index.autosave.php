@@ -1,5 +1,45 @@
 <?php
-$monture = $_GET['mont'];
+require('recaptcha/autoload.php');
+//$monture ="VOGAROFT";
+if(isset($_GET['monture'])){
+  $monture = $_GET['monture'];
+}else {
+  $monture ="VOGAROFT";
+}
+
+$ip_addr = $_SERVER['REMOTE_ADDR'];
+/*$geoplugin = unserialize( file_get_contents('http://www.geoplugin.net/php.gp?ip='.$ip_addr) );
+if ( is_numeric($geoplugin['geoplugin_latitude']) && is_numeric($geoplugin['geoplugin_longitude']) ) {
+
+$lat = $geoplugin['geoplugin_latitude'];
+$long = $geoplugin['geoplugin_longitude'];
+
+//echo $ip_addr.';'.$lat.';'.$long;
+
+}else {
+  $lat= '48.8980015';
+  $long = '2.2649493';
+}*/
+  $lat= '45.75801';
+  $long = '4.8001016';
+  function getaddress($lat,$lng)
+  {
+     $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&key=AIzaSyCw7IF5dgrLYfevSM2pHzENz0ungw0dt88';
+     $json = @file_get_contents($url);
+     $data=json_decode($json);
+     $status = $data->status;
+     if($status=="OK")
+     {
+       return $data->results[0]->formatted_address;
+     }
+     else
+     {
+       return false;
+     }
+  }
+
+$address = getaddress($lat,$long);
+
 ?>
 <html>
 <head>
@@ -11,13 +51,19 @@ $monture = $_GET['mont'];
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script type="text/javascript">
   	var monture = <?php echo "\"".$monture."\""; ?>;
+    var lat = <?php echo "\"".$lat."\""; ?>;
+    
+    var long =<?php echo "\"".$long."\""; ?>;
+    
+    var address =<?php echo "\"".$address."\""; ?>;
   </script>
 <head>
 <body>
-  <hr>
-  <div class="container-fluid">
+  
+  <div style="margin-left: -0.5%">
       <div class="modal-body" id="modal-body" >
         <br>
         <div style="text-align: center;">
@@ -34,12 +80,17 @@ $monture = $_GET['mont'];
             <i class="fas fa-search"></i>
           </div>
         </form>
+        <button onclick="getLocation()">me géolocaliser</button>
         <span id="magasin_selectione"></span>
         <div id="map" class="map"></div>
         <br>
-        <div class="alert alert-danger" id="alert_error" role="alert" style="display: none">
-       
-        </div>
+          <div class="alert alert-danger" id="alert_error" role="alert" style="display: none"></div>
+          <div class="alert alert-danger" id="alert_error_postal" role="alert" style="display: none"></div>
+          <div class="alert alert-danger" id="alert_error_nom" role="alert" style="display: none"></div>
+          <div class="alert alert-danger" id="alert_error_prenom" role="alert" style="display: none"></div>
+          <div class="alert alert-danger" id="alert_error_ville" role="alert" style="display: none"></div>
+          <div class="alert alert-danger" id="alert_error_telephone" role="alert" style="display: none"></div>
+          <div class="alert alert-danger" id="alert_error_mail" role="alert" style="display: none"></div>
         <form id="inscription" method="POST" action="prisse_rdv.php"  style="display: none">
           <h4 style="width: 100%;max-width: 100%;text-align: center;text-transform: uppercase;">INDIQUEZ-NOUS VOS DONNées PERSONNElleS</h4>
           <div class="formulaire" >
@@ -116,6 +167,8 @@ $monture = $_GET['mont'];
             <input type="date" class="form-control" id="date" name="date" min="2019-29-01" max="2019-12-31"  required> 
           </div>
           <br><br>
+          <div class="g-recaptcha" data-sitekey="6LcaWpgUAAAAAFPVrg_NCw52jidXGWLZVlm2A4wJ"></div>
+          <br>
           <div class="formulaire" >
             <label>&nbsp;</label>
           <div  id="commander" class="button" style="text-transform: uppercase;margin-left: 20%;margin-right: 20%;width: auto;text-align: center" >je réserve</div>
@@ -132,7 +185,7 @@ $monture = $_GET['mont'];
       </div>
       <div class="modal-body" id="error" style="text-align: center;padding: 15%;display: none">
         <i class="fas fa-exclamation-triangle fa-10x"></i><br><br>
-        <h4 style="text-transform: uppercase;">Il semblerait qu'il y ai une erreur dans votre adresse mail.  </h4><br>
+        <h4 style="text-transform: uppercase;">Il semblerait qu'il y ai une erreur.  </h4><br>
         
         <p>Pour toute question,
         veuillez nous contacter au +33 (0)1 56 83 03 85
